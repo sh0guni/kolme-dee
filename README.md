@@ -1,5 +1,7 @@
 # Kolme-Dee
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/sh0guni/kolme-dee/test.yml?branch=master&label=tests)](https://github.com/sh0guni/kolme-dee/actions/workflows/test.yml)
+
 A Rust library implementing the mathematical foundations of 3D game engine development, following the principles from "Foundations of Game Engine Development" by Eric Lengyel.
 
 ## Current Status
