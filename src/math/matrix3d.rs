@@ -11,6 +11,7 @@ pub struct Matrix3D {
 }
 
 impl Matrix3D {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         n00: f32,
         n01: f32,
