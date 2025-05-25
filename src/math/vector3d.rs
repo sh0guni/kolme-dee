@@ -1,14 +1,14 @@
 use std::ops::{Add, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub};
 
 #[derive(Debug, PartialEq)]
-pub struct Vector {
-    x: f32,
-    y: f32,
-    z: f32,
+pub struct Vector3D {
+    pub x: f32,
+    pub y: f32,
+    pub z: f32,
 }
 
 #[allow(dead_code)]
-impl Vector {
+impl Vector3D {
     fn new(x: f32, y: f32, z: f32) -> Self {
         Self { x, y, z }
     }
@@ -22,11 +22,11 @@ impl Vector {
     }
 }
 
-impl Add for &Vector {
-    type Output = Vector;
+impl Add for &Vector3D {
+    type Output = Vector3D;
 
-    fn add(self, other: &Vector) -> Vector {
-        Vector {
+    fn add(self, other: &Vector3D) -> Vector3D {
+        Vector3D {
             x: self.x + other.x,
             y: self.y + other.y,
             z: self.z + other.z,
@@ -34,11 +34,11 @@ impl Add for &Vector {
     }
 }
 
-impl Sub for Vector {
-    type Output = Vector;
+impl Sub for Vector3D {
+    type Output = Vector3D;
 
-    fn sub(self, other: Vector) -> Vector {
-        Vector {
+    fn sub(self, other: Vector3D) -> Vector3D {
+        Vector3D {
             x: self.x - other.x,
             y: self.y - other.y,
             z: self.z - other.z,
@@ -46,11 +46,11 @@ impl Sub for Vector {
     }
 }
 
-impl Neg for Vector {
-    type Output = Vector;
+impl Neg for Vector3D {
+    type Output = Vector3D;
 
     fn neg(self) -> Self::Output {
-        Vector {
+        Vector3D {
             x: -self.x,
             y: -self.y,
             z: -self.z,
@@ -58,11 +58,11 @@ impl Neg for Vector {
     }
 }
 
-impl Mul<f32> for &Vector {
-    type Output = Vector;
+impl Mul<f32> for &Vector3D {
+    type Output = Vector3D;
 
     fn mul(self, rhs: f32) -> Self::Output {
-        Vector {
+        Vector3D {
             x: self.x * rhs,
             y: self.y * rhs,
             z: self.z * rhs,
@@ -70,7 +70,7 @@ impl Mul<f32> for &Vector {
     }
 }
 
-impl MulAssign<f32> for Vector {
+impl MulAssign<f32> for Vector3D {
     fn mul_assign(&mut self, rhs: f32) {
         self.x *= rhs;
         self.y *= rhs;
@@ -78,11 +78,11 @@ impl MulAssign<f32> for Vector {
     }
 }
 
-impl Div<f32> for &Vector {
-    type Output = Vector;
+impl Div<f32> for &Vector3D {
+    type Output = Vector3D;
 
     fn div(self, rhs: f32) -> Self::Output {
-        Vector {
+        Vector3D {
             x: self.x / rhs,
             y: self.y / rhs,
             z: self.z / rhs,
@@ -90,7 +90,7 @@ impl Div<f32> for &Vector {
     }
 }
 
-impl DivAssign<f32> for Vector {
+impl DivAssign<f32> for Vector3D {
     fn div_assign(&mut self, rhs: f32) {
         self.x /= rhs;
         self.y /= rhs;
@@ -98,7 +98,7 @@ impl DivAssign<f32> for Vector {
     }
 }
 
-impl Index<usize> for Vector {
+impl Index<usize> for Vector3D {
     type Output = f32;
 
     fn index(&self, index: usize) -> &Self::Output {
@@ -111,7 +111,7 @@ impl Index<usize> for Vector {
     }
 }
 
-impl IndexMut<usize> for Vector {
+impl IndexMut<usize> for Vector3D {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         match index {
             0 => &mut self.x,
@@ -128,8 +128,8 @@ mod tests {
 
     #[test]
     fn test_add() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
-        let v2 = Vector::new(4.0, 5.0, 6.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
+        let v2 = Vector3D::new(4.0, 5.0, 6.0);
         let v3 = &v1 + &v2;
         assert_eq!(v3.x, 5.0);
         assert_eq!(v3.y, 7.0);
@@ -138,8 +138,8 @@ mod tests {
 
     #[test]
     fn test_sub() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
-        let v2 = Vector::new(4.0, 5.0, 6.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
+        let v2 = Vector3D::new(4.0, 5.0, 6.0);
         let v3 = v1 - v2;
         assert_eq!(v3.x, -3.0);
         assert_eq!(v3.y, -3.0);
@@ -148,7 +148,7 @@ mod tests {
 
     #[test]
     fn test_neg() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
         let v2 = -v1;
         assert_eq!(v2.x, -1.0);
         assert_eq!(v2.y, -2.0);
@@ -157,7 +157,7 @@ mod tests {
 
     #[test]
     fn test_mul() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
         let v2 = &v1 * 2.0;
         assert_eq!(v2.x, 2.0);
         assert_eq!(v2.y, 4.0);
@@ -166,7 +166,7 @@ mod tests {
 
     #[test]
     fn test_mul_assign() {
-        let mut v1 = Vector::new(1.0, 2.0, 3.0);
+        let mut v1 = Vector3D::new(1.0, 2.0, 3.0);
         v1 *= 2.0;
         assert_eq!(v1.x, 2.0);
         assert_eq!(v1.y, 4.0);
@@ -175,7 +175,7 @@ mod tests {
 
     #[test]
     fn test_div() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
         let v2 = &v1 / 2.0;
         assert_eq!(v2.x, 0.5);
         assert_eq!(v2.y, 1.0);
@@ -184,7 +184,7 @@ mod tests {
 
     #[test]
     fn test_div_by_zero() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
         let v2 = &v1 / 0.0;
 
         // Going by IEEE 754, dividing by zero results in infinity
@@ -195,7 +195,7 @@ mod tests {
 
     #[test]
     fn test_div_assign() {
-        let mut v1 = Vector::new(1.0, 2.0, 3.0);
+        let mut v1 = Vector3D::new(1.0, 2.0, 3.0);
         v1 /= 2.0;
         assert_eq!(v1.x, 0.5);
         assert_eq!(v1.y, 1.0);
@@ -204,7 +204,7 @@ mod tests {
 
     #[test]
     fn test_index() {
-        let v = Vector::new(1.0, 2.0, 3.0);
+        let v = Vector3D::new(1.0, 2.0, 3.0);
         assert_eq!(v[0], 1.0);
         assert_eq!(v[1], 2.0);
         assert_eq!(v[2], 3.0);
@@ -213,13 +213,13 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_index_out_of_bounds() {
-        let v = Vector::new(1.0, 2.0, 3.0);
+        let v = Vector3D::new(1.0, 2.0, 3.0);
         let _ = v[3];
     }
 
     #[test]
     fn test_index_mut() {
-        let mut v = Vector::new(1.0, 2.0, 3.0);
+        let mut v = Vector3D::new(1.0, 2.0, 3.0);
         v[0] = 4.0;
         assert_eq!(v[0], 4.0);
     }
@@ -227,14 +227,14 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_index_mut_out_of_bounds() {
-        let mut v = Vector::new(1.0, 2.0, 3.0);
+        let mut v = Vector3D::new(1.0, 2.0, 3.0);
         v[3] = 4.0;
     }
 
     #[test]
     fn test_operator_chaining() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
-        let v2 = Vector::new(4.0, 5.0, 6.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
+        let v2 = Vector3D::new(4.0, 5.0, 6.0);
         let v3 = &v1 + &v2;
         let v4 = &v3 * 2.0;
         assert_eq!(v4.x, 10.0);
@@ -247,20 +247,20 @@ mod tests {
 
     #[test]
     fn test_magnitude() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
         assert_eq!(v1.magnitude(), 3.7416575);
 
-        let v2 = Vector::new(0.0, 0.0, 0.0);
+        let v2 = Vector3D::new(0.0, 0.0, 0.0);
         assert_eq!(v2.magnitude(), 0.0);
 
-        let v3 = Vector::new(1.0, 1.0, 1.0);
+        let v3 = Vector3D::new(1.0, 1.0, 1.0);
         assert_eq!(v3.magnitude(), 1.7320508);
     }
 
     #[test]
     fn test_normalize() {
-        let v1 = Vector::new(1.0, 2.0, 3.0);
-        let v2 = Vector::new(0.26726124, 0.5345225, 0.8017837);
+        let v1 = Vector3D::new(1.0, 2.0, 3.0);
+        let v2 = Vector3D::new(0.26726124, 0.5345225, 0.8017837);
         assert_eq!(v1.normalize(), v2);
     }
 }
