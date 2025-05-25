@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Sub};
+use std::ops::{Add, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub};
 
 #[derive(Debug, PartialEq)]
 pub struct Vector {
@@ -34,6 +34,18 @@ impl Sub for Vector {
             x: self.x - other.x,
             y: self.y - other.y,
             z: self.z - other.z,
+        }
+    }
+}
+
+impl Neg for Vector {
+    type Output = Vector;
+
+    fn neg(self) -> Self::Output {
+        Vector {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
         }
     }
 }
@@ -124,6 +136,15 @@ mod tests {
         assert_eq!(v3.x, -3.0);
         assert_eq!(v3.y, -3.0);
         assert_eq!(v3.z, -3.0);
+    }
+
+    #[test]
+    fn test_neg() {
+        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v2 = -v1;
+        assert_eq!(v2.x, -1.0);
+        assert_eq!(v2.y, -2.0);
+        assert_eq!(v2.z, -3.0);
     }
 
     #[test]
