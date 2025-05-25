@@ -7,9 +7,8 @@ pub struct Vector3D {
     pub z: f32,
 }
 
-#[allow(dead_code)]
 impl Vector3D {
-    fn new(x: f32, y: f32, z: f32) -> Self {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
         Self { x, y, z }
     }
 

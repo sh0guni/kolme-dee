@@ -10,8 +10,8 @@ A Rust library implementing the mathematical foundations of 3D game engine devel
 - [x] Vector Fundamentals
   - [x] Basic Vector Operations
   - [x] Magnitude and Scalar Multiplication
-- [ ] Matrix Fundamentals
-  - [ ] Basic Matrix Operations
+- [x] Matrix Fundamentals
+  - [x] Basic Matrix Operations
   - [ ] Matrix Multiplication
   - [ ] Matrix Inversion
 - [ ] Vector Multiplication
