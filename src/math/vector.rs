@@ -12,6 +12,14 @@ impl Vector {
     fn new(x: f32, y: f32, z: f32) -> Self {
         Self { x, y, z }
     }
+
+    pub fn magnitude(&self) -> f32 {
+        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
+    }
+
+    pub fn normalize(&self) -> Self {
+        self / self.magnitude()
+    }
 }
 
 impl Add for &Vector {
@@ -235,5 +243,24 @@ mod tests {
 
         let v5 = &(&v1 + &v2) * 2.0;
         assert_eq!(v5, v4);
+    }
+
+    #[test]
+    fn test_magnitude() {
+        let v1 = Vector::new(1.0, 2.0, 3.0);
+        assert_eq!(v1.magnitude(), 3.7416575);
+
+        let v2 = Vector::new(0.0, 0.0, 0.0);
+        assert_eq!(v2.magnitude(), 0.0);
+
+        let v3 = Vector::new(1.0, 1.0, 1.0);
+        assert_eq!(v3.magnitude(), 1.7320508);
+    }
+
+    #[test]
+    fn test_normalize() {
+        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let v2 = Vector::new(0.26726124, 0.5345225, 0.8017837);
+        assert_eq!(v1.normalize(), v2);
     }
 }
