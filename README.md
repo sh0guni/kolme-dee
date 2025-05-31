@@ -12,7 +12,7 @@ A Rust library implementing the mathematical foundations of 3D game engine devel
   - [x] Magnitude and Scalar Multiplication
 - [x] Matrix Fundamentals
   - [x] Basic Matrix Operations
-  - [ ] Matrix Multiplication
+  - [x] Matrix Multiplication
   - [ ] Matrix Inversion
 - [ ] Vector Multiplication
   - [ ] Dot Product

@@ -1,12 +1,15 @@
 use std::{
     mem,
-    ops::{Index, IndexMut},
+    ops::{Index, IndexMut, Mul},
 };
 
 use crate::math::vector3d::Vector3D;
 
 #[derive(Debug, PartialEq)]
 pub struct Matrix3D {
+    // Column-major order,
+    // so n[0] is the first column,
+    // n[2][1] is the third column, second row etc.
     pub n: [[f32; 3]; 3],
 }
 
@@ -39,6 +42,7 @@ impl Matrix3D {
     }
 }
 
+// Converts (x,y) row-column order notation to column-major order
 impl Index<(usize, usize)> for Matrix3D {
     type Output = f32;
 
@@ -64,6 +68,24 @@ impl Index<usize> for Matrix3D {
 impl IndexMut<usize> for Matrix3D {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         unsafe { mem::transmute(&mut self.n[index]) }
+    }
+}
+
+impl Mul<Matrix3D> for Matrix3D {
+    type Output = Matrix3D;
+
+    fn mul(self, rhs: Matrix3D) -> Self::Output {
+        Matrix3D::new(
+            self.n[0][0] * rhs.n[0][0] + self.n[1][0] * rhs.n[0][1] + self.n[2][0] * rhs.n[0][2],
+            self.n[0][0] * rhs.n[1][0] + self.n[1][0] * rhs.n[1][1] + self.n[2][0] * rhs.n[1][2],
+            self.n[0][0] * rhs.n[2][0] + self.n[1][0] * rhs.n[2][1] + self.n[2][0] * rhs.n[2][2],
+            self.n[0][1] * rhs.n[0][0] + self.n[1][1] * rhs.n[0][1] + self.n[2][1] * rhs.n[0][2],
+            self.n[0][1] * rhs.n[1][0] + self.n[1][1] * rhs.n[1][1] + self.n[2][1] * rhs.n[1][2],
+            self.n[0][1] * rhs.n[2][0] + self.n[1][1] * rhs.n[2][1] + self.n[2][1] * rhs.n[2][2],
+            self.n[0][2] * rhs.n[0][0] + self.n[1][2] * rhs.n[0][1] + self.n[2][2] * rhs.n[0][2],
+            self.n[0][2] * rhs.n[1][0] + self.n[1][2] * rhs.n[1][1] + self.n[2][2] * rhs.n[1][2],
+            self.n[0][2] * rhs.n[2][0] + self.n[1][2] * rhs.n[2][1] + self.n[2][2] * rhs.n[2][2],
+        )
     }
 }
 
@@ -109,5 +131,19 @@ mod tests {
         let v = &mut m[(0, 0)];
         *v = 10.0;
         assert_eq!(m[(0, 0)], 10.0);
+    }
+
+    #[test]
+    fn test_mul() {
+        let m1 = Matrix3D::new(1.0, 3.0, -2.0, 0.0, -1.0, 4.0, 4.0, -3.0, 2.0);
+        let m2 = Matrix3D::new(2.0, -2.0, 3.0, 1.0, 5.0, 3.0, -3.0, 4.0, 1.0);
+        let m3 = m1 * m2;
+        assert_eq!(
+            m3,
+            Matrix3D::new(11.0, 5.0, 10.0, -13.0, 11.0, 1.0, -1.0, -15.0, 5.0)
+        );
+        assert_eq!(m3[0], Vector3D::new(11.0, -13.0, -1.0));
+        assert_eq!(m3[1], Vector3D::new(5.0, 11.0, -15.0));
+        assert_eq!(m3[2], Vector3D::new(10.0, 1.0, 5.0));
     }
 }
